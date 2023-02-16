@@ -15,4 +15,4 @@
  - Unit test
 
 #### Objective
-Read a webservice from the company and show Its data in a list view and a pie chart
+Read a webservice from the company and show Its data on a list view and on a pie chart
