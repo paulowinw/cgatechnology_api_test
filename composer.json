@@ -2,14 +2,19 @@
     "name": "paulowinw/cgatechnology_api_test",
     "type": "library",
     "minimum-stability": "dev",
-    "require": {
-        "guzzlehttp/guzzle-services": "1.3.x-dev"
-    },
     "autoload": {
         "psr-4": {
             "RestClient\\": "src/RestClient",
             "Modules\\": "src/Modules"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "GuzzleHttp\\Tests\\": "./vendor/guzzlehttp/guzzle/tests/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle-services": "^1.3.x-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
