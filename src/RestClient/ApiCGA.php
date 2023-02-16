@@ -7,7 +7,7 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 
 class ApiCGA extends GuzzleClient {
-
+    
     public static function create($config = [], $bodyParams = []) {
         // Load the service description file.
         $service_description = new Description(
