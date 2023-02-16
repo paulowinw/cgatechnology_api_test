@@ -11,6 +11,8 @@
 #### Specifications
 
  - Factory pattern
+ - Builder pattern
+ - Repository pattern
  - Command pattern (implicit)
  - Unit test
 
