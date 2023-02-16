@@ -1,0 +1,83 @@
+{
+    "name": "CGA",
+    "apiVersion": "2000-01-01",
+    "baseUrl": "https://demo.flexmms.com/v3/api/",
+    "description": "CGA",
+    "operations": {
+      "getIncidents": {
+        "httpMethod": "GET",
+        "uri": "incidents",
+        "summary": "Gets incidents",
+        "responseModel": "IncidentsResponse"
+      }
+    },
+    "models": {
+      "BaseResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "string",
+            "required": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The error code."
+                },
+                "message": {
+                  "type": "string",
+                  "description": "The detailed message from the server."
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": {
+          "location": "json"
+        }
+      },
+      "IncidentsResponse": {
+        "type": "object",
+        "extends": "BaseResponse",
+        "properties": {
+          "status": {
+            "type": "string",
+            "required": true
+          },
+          "base": {
+            "type": "string",
+            "required": true
+          },
+          "results": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string",
+                "required": true
+              },
+              "incidentdate": {
+                "type": "int",
+                "required": false
+              },
+              "project": {
+                "type": "string",
+                "required": false
+              },
+              "projectReference": {
+                "type": "string",
+                "required": false
+              },
+              "type": {
+                "type": "string",
+                "required": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }

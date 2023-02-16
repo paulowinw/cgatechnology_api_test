@@ -1,0 +1,13 @@
+{
+    "name": "paulowinw/cgatechnology_api_test",
+    "type": "library",
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle-services": "1.3.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "RestClient\\": "RestClient"
+        }
+    }
+}
