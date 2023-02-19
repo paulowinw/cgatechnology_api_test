@@ -18,11 +18,17 @@ class IncidentsRepository {
         echo json_encode($this->results);
     }
 
+    public function formatDateToEpoch($date) {
+        $arrEndDate = explode('/', $date);
+        $date = "{$arrEndDate[2]}-{$arrEndDate[1]}-{$arrEndDate[0]}";
+        return strtotime($date);
+    }
+
     public function getIncidentsByRangeDate($start, $end) {
         $results = $this->apiCGA->setBody([
                 "view" => "detailed",
-                "start" => $start,
-                "end" => $end
+                "start" => $this->formatDateToEpoch($start),
+                "end" => $this->formatDateToEpoch($end)
             ])
             ->exec()
             ->getIncidents()
@@ -59,5 +65,4 @@ class IncidentsRepository {
         return $projectReferences;
     }
     
-
 }

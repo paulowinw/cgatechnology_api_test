@@ -16,6 +16,19 @@
 <body>
     <a class="offline-button" href="index.html">CGI Incident List</a>
     <a class="offline-button" href="pie-chart.html">CGI Incident Pie Chart</a>
+
+    <div class="k-d-flex k-justify-content-center div-incident-range">
+		<div class="k-w-300">
+			<label for="start-date">Show incidents from:</label> <br/>
+			<input id="start-date" value="01/01/2015" title="Start date"/>
+			<br/>
+			<br/>
+			<label for="end-date">To:</label> <br/>
+			<input id="end-date" title="End date"/> <br/>
+            <input type="button" id="btn-filter-incident" value="Filter" />
+		</div>
+    </div>
+
     <div id="list">
         <div id="listView"></div>
 
@@ -41,41 +54,59 @@
 
     <script>
         $(document).ready(function () {
-            var dataSource = new kendo.data.DataSource({
+
+            function createDataSource(data = null) {
+                // Loading data for KendoUiList
+                const dataSource = new kendo.data.DataSource({
                     transport: {
                         read: {
                             url: "incidents-list-design-patterns.php",
-                            dataType: "json"
+                            data: data,
+                            dataType: "json",
                         },
-                        parameterMap: function (options, operation) {
-                            if (operation !== "read" && options.models) {
-                                return { models: kendo.stringify(options.models) };
-                            }
-                        }
                     },
-                    batch: true,
                     pageSize: 4,
-                    schema: {
-                        model: {
-                            id: "number",
-                            fields: {
-                                number: { editable: false, nullable: true },
-                                incidentdate: { type: "string" },
-                                project: { type: "string" },
-                                projectReference: { type: "string" },
-                                type: { type: "string" }
-                            }
-                        }
-                    }
                 });
 
-            var listView = $("#listView").kendoListView({
+                return dataSource;
+            }
+
+            // create DatePicker from input HTML element
+            $("#start-date").kendoDatePicker();
+            $("#end-date").kendoDatePicker();
+
+            const date = new Date();
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            const currentDate = `${day}/${month}/${year}`;
+            $("#end-date").val(currentDate);
+
+            const dataSource = createDataSource();
+
+            let listView = $("#listView").kendoListView({
                 dataSource: dataSource,
                 selectable: true,
                 navigatable: true,
                 pageable: true,
                 template: kendo.template($("#template").html())
             }).data("kendoListView");
+
+            $("#btn-filter-incident").click(function() {
+                const startDate = $("#start-date").val();
+                const endDate = $("#end-date").val();
+                const postData = {
+                    'startDate': startDate,
+                    'endData': endDate
+                };
+
+                let dataSource = createDataSource(postData);
+                let listView = $("#listView").data("kendoListView");
+
+                listView.setDataSource(dataSource);
+                listView._pageable();
+            });
         });
 
         $(document.body).keydown(function (e) {
@@ -83,6 +114,7 @@
                 $("#listView").focus();
             }
         });
+
     </script>
     <style>
         .incident-view {
@@ -161,6 +193,15 @@
                 .incident-view:nth-child(even) {
                     border-left-width: 1px;
                 }
+        }
+
+        .div-incident-range {
+            margin-bottom: 30px;
+        }
+
+        #btn-filter-incident {
+            margin: 10px auto 0px auto;
+            display: block;
         }
     </style>
 
