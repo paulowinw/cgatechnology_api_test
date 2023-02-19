@@ -2,38 +2,30 @@
 
 use PHPUnit\Framework\TestCase;
 
-use FooApi\RestClient\FooClient;
-use GuzzleHttp\Command\ResultInterface;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Tests\Server;
+use GuzzleHttp\Client;
+use Modules\Incidents\Repositories\IncidentsRepository;
 
 final class IncidentsRepositoryTest extends TestCase
 {
-    public function setUp() {
-        parent::setUp();
+    public function testCgaServerIsOn() {
+        $http = new Client(['base_uri' => IncidentsRepository::BASE_URI]);
+        $response = $http->request('GET', 'user-agent');
 
-        // Load and start the guzzle test server.
-        require_once __DIR__ . '/../../vendor/guzzlehttp/guzzle/tests/Server.php';
-        Server::start();
-        register_shutdown_function(function(){Server::stop();});
-
-        $this->client = FooClient::create([
-            'base_uri' => Server::$url,
-            'api_user' => $_SERVER['FOO_USER'],
-            'api_pass' => $_SERVER['FOO_PASS'],
-        ]);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testGetIncidentsByRangeDate() {
-        $foo = [
-            'id' => '1',
-            'name' => 'Foo',
-            'description' => 'The best ever Foo.',
-        ];
-        Server::enqueue([new Response(200, [], json_encode(['status' => 'OK','Foo' => $foo], TRUE))]);
-        $response = $this->client->GetFoo();
+        $repo = new IncidentsRepository();
 
-        self::assertInstanceOf(ResultInterface::class, $response);
-        self::assertEquals($foo, $response->toArray()['Foo']);
+        $result = $repo->getIncidentsByRangeDate("1/1/2022", "1/1/2023");
+        $this->assertArrayHasKey(0, $result); // Check if it returs non empty result
     }
+
+    public function testGetIncidentProjectsByRangeDate() {
+        $repo = new IncidentsRepository();
+
+        $result = $repo->getIncidentProjectsByRangeDate("1/1/2022", "1/1/2023");
+        $this->assertArrayHasKey(0, $result); // Check if it returs non empty result
+    }
+
 }
