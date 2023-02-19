@@ -12,6 +12,9 @@
     <script src="js/jszip.min.js"></script>
     <script src="js/kendo.all.min.js"></script>
     <script src="js/console.js"></script>
+
+    <link href="styles/style.css" rel="stylesheet">
+    <script src="js/main.js"></script>
 </head>
 <body>
     <a class="offline-button" href="index.html">CGI Incident List</a>
@@ -31,7 +34,6 @@
 
     <div id="list">
         <div id="listView"></div>
-
         <script type="text/x-kendo-tmpl" id="template">
             <div class="incident-view k-widget">
                 <dl>
@@ -51,159 +53,5 @@
             </div>
         </script>
     </div>
-
-    <script>
-        $(document).ready(function () {
-
-            function createDataSource(data = null) {
-                // Loading data for KendoUiList
-                const dataSource = new kendo.data.DataSource({
-                    transport: {
-                        read: {
-                            url: "incidents-list-design-patterns.php",
-                            data: data,
-                            dataType: "json",
-                        },
-                    },
-                    pageSize: 4,
-                });
-
-                return dataSource;
-            }
-
-            // create DatePicker from input HTML element
-            $("#start-date").kendoDatePicker();
-            $("#end-date").kendoDatePicker();
-
-            const date = new Date();
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
-
-            const currentDate = `${day}/${month}/${year}`;
-            $("#end-date").val(currentDate);
-
-            const dataSource = createDataSource();
-
-            let listView = $("#listView").kendoListView({
-                dataSource: dataSource,
-                selectable: true,
-                navigatable: true,
-                pageable: true,
-                template: kendo.template($("#template").html())
-            }).data("kendoListView");
-
-            $("#btn-filter-incident").click(function() {
-                const startDate = $("#start-date").val();
-                const endDate = $("#end-date").val();
-                const postData = {
-                    'startDate': startDate,
-                    'endData': endDate
-                };
-
-                let dataSource = createDataSource(postData);
-                let listView = $("#listView").data("kendoListView");
-
-                listView.setDataSource(dataSource);
-                listView._pageable();
-            });
-        });
-
-        $(document.body).keydown(function (e) {
-            if (e.altKey && e.keyCode == 87) {
-                $("#listView").focus();
-            }
-        });
-
-    </script>
-    <style>
-        .incident-view {
-            float: left;
-            width: 50%;
-            height: 350px;
-            box-sizing: border-box;
-            border-top: 0;
-            position: relative;
-        }
-
-            .incident-view:nth-child(even) {
-                border-left-width: 0;
-            }
-
-            .incident-view dl {
-                margin: 10px 10px 0;
-                padding: 0;
-                overflow: hidden;
-            }
-
-            .incident-view dt, dd {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                line-height: 24px;
-                font-size: 18px;
-            }
-
-            .incident-view dt {
-                font-size: 11px;
-                height: 16px;
-                line-height: 16px;
-                text-transform: uppercase;
-                opacity: 0.5;
-            }
-
-            .incident-view dd {
-                height: 46px;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-
-            .incident-view dd .k-widget {
-                font-size: 14px;
-            }
-
-        #list .k-listview {
-            border-width: 1px 0 0;
-            padding: 0;
-            overflow: hidden;
-            min-height: 298px;
-        }
-
-        .edit-buttons {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            text-align: right;
-            padding: 5px;
-            background-color: rgba(0,0,0,0.1);
-        }
-
-        .k-pager-wrap {
-            border-top: 0;
-        }
-
-        @media only screen and (max-width : 620px) {
-
-            .incident-view {
-                width: 100%;
-            }
-
-                .incident-view:nth-child(even) {
-                    border-left-width: 1px;
-                }
-        }
-
-        .div-incident-range {
-            margin-bottom: 30px;
-        }
-
-        #btn-filter-incident {
-            margin: 10px auto 0px auto;
-            display: block;
-        }
-    </style>
-
 </body>
 </html>

@@ -1,0 +1,86 @@
+.incident-view {
+    float: left;
+    width: 50%;
+    height: 350px;
+    box-sizing: border-box;
+    border-top: 0;
+    position: relative;
+}
+
+    .incident-view:nth-child(even) {
+        border-left-width: 0;
+    }
+
+    .incident-view dl {
+        margin: 10px 10px 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .incident-view dt, dd {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        line-height: 24px;
+        font-size: 18px;
+    }
+
+    .incident-view dt {
+        font-size: 11px;
+        height: 16px;
+        line-height: 16px;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+
+    .incident-view dd {
+        height: 46px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .incident-view dd .k-widget {
+        font-size: 14px;
+    }
+
+#list .k-listview {
+    border-width: 1px 0 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 298px;
+}
+
+.edit-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    padding: 5px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.k-pager-wrap {
+    border-top: 0;
+}
+
+@media only screen and (max-width : 620px) {
+
+    .incident-view {
+        width: 100%;
+    }
+
+        .incident-view:nth-child(even) {
+            border-left-width: 1px;
+        }
+}
+
+.div-incident-range {
+    margin-bottom: 30px;
+}
+
+#btn-filter-incident {
+    margin: 10px auto 0px auto;
+    display: block;
+}
