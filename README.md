@@ -1,6 +1,13 @@
 # CGI TEST
 
-## Stack
+## Resources
+
+- Loading incident list from CGI Webservice
+- List view with pagination with big area
+- Date filter for the list view
+- Pie chart organized by project name
+
+### Stack
 
 - PHP
 - PHP Unit 4
@@ -10,7 +17,7 @@
 - Jquery
 - Kendo UI
 
-## Specifications
+### Specifications
 
 - Factory pattern
 - Builder pattern
